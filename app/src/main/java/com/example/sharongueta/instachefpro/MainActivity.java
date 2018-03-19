@@ -1,30 +1,14 @@
 package com.example.sharongueta.instachefpro;
 
-import android.nfc.Tag;
-import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
-import android.widget.TextView;
-
-public class HomeActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "HomeActivity";
+    private static final String TAG = "MainActivity";
 
     private SectionsPageAdapter sectionsPageAdapter;
     private ViewPager viewPager;
@@ -57,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         sectionsPageAdapter.addFragment(new ProfileFragment());
         sectionsPageAdapter.addFragment(new AddFragment());
         sectionsPageAdapter.addFragment(new MapFragment());
+        sectionsPageAdapter.addFragment(new HomeFragment() );
 
         viewPager.setAdapter(sectionsPageAdapter);
 
@@ -67,5 +52,6 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(android.R.drawable.ic_menu_myplaces);
         tabLayout.getTabAt(2).setIcon(android.R.drawable.ic_input_add);
         tabLayout.getTabAt(3).setIcon(android.R.drawable.ic_menu_mapmode);
+        tabLayout.getTabAt(4).setIcon(android.R.drawable.ic_menu_recent_history);
     }
 }
