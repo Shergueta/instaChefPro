@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.sharongueta.instachefpro.Model.LoginRequest;
 import com.example.sharongueta.instachefpro.Model.RegisterRequest;
+import com.example.sharongueta.instachefpro.Model.ServerRequest;
+import com.example.sharongueta.instachefpro.Model.User;
 
 /**
  * Created by sharongueta on 19/03/2018.
@@ -17,7 +19,7 @@ public class AuthViewModel extends ViewModel {
 
     public AuthViewModel() {
         authRepository = AuthRepository.getInstance();
-        //  userRepository = UserRepository.getInstance();
+        userRepository = UserRepository.getInstance();
     }
 
     public LiveData<LoginRequest> signIn(LoginRequest loginRequest) {
@@ -29,8 +31,8 @@ public class AuthViewModel extends ViewModel {
         return authRepository.register(registerRequest);
     }
 
-//    public LiveData<ServerRequest> createUser(User user) {
-//        return userRepository.createUser(user);
-//    }
+    public LiveData<ServerRequest> createUser(User user) {
+        return userRepository.createUser(user);
+    }
 }
 

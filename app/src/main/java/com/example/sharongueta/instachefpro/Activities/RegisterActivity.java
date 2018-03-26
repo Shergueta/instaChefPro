@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.sharongueta.instachefpro.AuthViewModel;
 import com.example.sharongueta.instachefpro.Model.RegisterRequest;
+import com.example.sharongueta.instachefpro.Model.ServerRequest;
 import com.example.sharongueta.instachefpro.Model.User;
 import com.example.sharongueta.instachefpro.R;
 import com.google.firebase.auth.FirebaseAuthEmailException;
@@ -37,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_screen);
 
@@ -44,7 +46,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         bindWidgets();
         setListeners();
-
 
     }
 
@@ -55,16 +56,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         emailEditText = findViewById(R.id.register_screen_EmailPlainText);
         passwordEditText= findViewById(R.id.register_screen_PasswordPlainText);
         progressBar= findViewById(R.id.register_screen_progress_bar);
+        registerBtn =  findViewById(R.id.register_screen_RegisterButton);
 
     }
+
 
     private void setListeners() {
         registerBtn.setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.register_screen_RegisterButton:
                 registerBtn.setClickable(false);
@@ -72,7 +75,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
-
     private void registerUser() {
 
         User userToRegister = new User();
@@ -140,7 +142,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (registerRequest.isSuccessful()) {
 
                     userToRegister.setUserId(registerRequest.getUserId());
-                    //createUserWithDetails(userToRegister);
+                    createUserWithDetails(userToRegister);
 
                 } else if (registerRequest.getException() instanceof FirebaseAuthEmailException) {
 
@@ -158,26 +160,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         });
     }
+    private void createUserWithDetails(User userToRegister) {
 
-//    private void createUserWithDetails(User userToRegister) {
-//
-//        authVm.createUser(userToRegister).observe(this, new Observer<ServerRequest>() {
-//
-//            @Override
-//            public void onChanged(@Nullable ServerRequest serverRequest) {
-//                progressBar.setVisibility(View.GONE);
-//                registerBtn.setClickable(true);
-//
-//                if (serverRequest.isSuccessful()) {
-//
-//                    Toast.makeText(getApplicationContext(), serverRequest.getMessage(), Toast.LENGTH_SHORT).show();
-//
-//                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-//                    finish();
-//                } else {
-//                    Toast.makeText(getApplicationContext(), serverRequest.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//    }
+        authVm.createUser(userToRegister).observe(this, new Observer<ServerRequest>() {
+
+            @Override
+            public void onChanged(@Nullable ServerRequest serverRequest) {
+                progressBar.setVisibility(View.GONE);
+                registerBtn.setClickable(true);
+
+                if (serverRequest.isSuccessful()) {
+
+                    Toast.makeText(getApplicationContext(), serverRequest.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), serverRequest.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }
