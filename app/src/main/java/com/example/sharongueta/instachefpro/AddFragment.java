@@ -1,37 +1,196 @@
 package com.example.sharongueta.instachefpro;
 
+import android.app.Activity;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.sharongueta.instachefpro.Model.CreateRecipeRequest;
+import com.example.sharongueta.instachefpro.Model.Recipe;
+import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
+import com.squareup.picasso.Picasso;
+
 /**
- * Created by sharongueta on 14/03/2018.
+ * Created by sharongueta on 29/03/2018.
  */
-//
-public class AddFragment extends Fragment {
-    private static final String TAG="AddFragment";
 
-    private Button btnTest;
+public  class AddFragment extends Fragment implements View.OnClickListener {
 
-    @Nullable
+    private static final int GALLERY_REQUEST_CODE = 999;
+    private static final String YA = " ";
+
+
+    private Button addRecipePhoto;
+    private Button finishButton;
+    private ProgressBar progressBarPhoto;
+    private ProgressBar progressBarFinish;
+    private ImageView recipePhoto;
+    private AddViewModel addVm;
+    private UserViewModel userViewModel;
+    private EditText recipeName;
+    private EditText description;
+    private EditText ingredients;
+
+    public AddFragment() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view= inflater.inflate(R.layout.add_screen,container,false);
-        btnTest= view.findViewById(R.id.add_screen_addPhotoButton);
+        View view = inflater.inflate(R.layout.add_screen, container, false);
 
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(getActivity(),"Testing button add",Toast.LENGTH_SHORT).show();
-            }
-        });
+        bindViewsOfWidget(view);
+        setListeners();
+        addVm = ViewModelProviders.of(this).get(AddViewModel.class);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         return view;
     }
+
+    private void bindViewsOfWidget(View view) {
+
+        addRecipePhoto = view.findViewById(R.id.add_screen_addPhotoButton);
+        finishButton = view.findViewById(R.id.add_screen_finishButton);
+        progressBarFinish = view.findViewById(R.id.add_screen_Progress_bar_finish);
+        progressBarPhoto = view.findViewById(R.id.add_screen_Progress_bar_addPhoto);
+        recipePhoto = view.findViewById(R.id.add_screen_recipeImage);
+        recipeName = view.findViewById(R.id.add_screen_RecipeName_plainText);
+        description = view.findViewById(R.id.add_screen_TheRecipe_plainText);
+        ingredients= view.findViewById(R.id.add_screen_ingredients_PlainText);
+
+    }
+
+    private void setListeners() {
+
+        addRecipePhoto.setOnClickListener(this);
+        finishButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.add_screen_addPhotoButton:
+                addImage();
+                break;
+
+            case R.id.add_screen_finishButton:
+                createRecipe();
+                Toast.makeText(getContext(), "your recipe added", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), MainActivity.class));
+                break;
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        addRecipePhoto.setVisibility(View.GONE);
+        progressBarPhoto.setVisibility(View.VISIBLE);
+        final Uri localImgUri = data.getData();
+        Log.d(YA, "onActivityResult: here ");
+
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+            addVm.uploadRecipePhoto(data.getData().toString()).observe(this, new Observer<ResourceUploadRequest>() {
+                @Override
+                public void onChanged(@Nullable ResourceUploadRequest resourceUploadRequest) {
+
+                    progressBarPhoto.setVisibility(View.GONE);
+                    addRecipePhoto.setVisibility(View.VISIBLE);
+
+                    if (resourceUploadRequest.isSucceeded()) {
+                        addVm.setRecipePhotoUrl(resourceUploadRequest.getDownloadUri().toString());
+
+                        Picasso.with(getContext()).load(localImgUri).into(recipePhoto);
+                    } else {
+                        addVm.setRecipePhotoUrl("NO_LOGO");
+                        Toast.makeText(getContext(), resourceUploadRequest.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+
+
+    }
+
+    private void addImage() {
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_REQUEST_CODE);
+    }
+
+    private void createRecipe() {
+
+        Recipe recipe = new Recipe();
+        recipe.setName(recipeName.getText().toString().trim());
+        recipe.setDescription(description.getText().toString().trim());
+        recipe.setIngredients(ingredients.getText().toString().trim());
+        recipe.setUrlPhoto(addVm.getRecipePhotoUrl());
+        recipe.setUserId(userViewModel.getUserId());
+
+        if (recipeDetailsAreValid(recipe)) {
+            createRecipeWithDetails(recipe);
+
+        } else
+            finishButton.setClickable(true);
+    }
+
+
+
+    private boolean recipeDetailsAreValid(Recipe recipe) {
+
+        return true;
+    }
+
+    private void createRecipeWithDetails(final Recipe recipeToAdd) {
+
+        //add details for the first table " Recipes "
+
+        addVm.createRecipe(recipeToAdd).observe(this, new Observer<CreateRecipeRequest>() {
+            @Override
+            public void onChanged(@Nullable CreateRecipeRequest createRecipeRequest) {
+              progressBarFinish.setVisibility(View.GONE);
+              if (createRecipeRequest.isSuccess()){
+
+                  Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
+            }else {
+                   Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }}
+        });
+
+        //add details for the second table " UsersRecipes "
+
+        addVm.addToDbRecipesId(recipeToAdd).observe(this, new Observer<CreateRecipeRequest>() {
+            @Override
+            public void onChanged(@Nullable CreateRecipeRequest createRecipeRequest) {
+                progressBarFinish.setVisibility(View.GONE);
+                if (createRecipeRequest.isSuccess()){
+
+                    Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }}
+        });
+
+
+    }
+
 }

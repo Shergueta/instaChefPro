@@ -8,7 +8,7 @@ public class LoginRequest {
 
     private String email;
     private String password;
-    private Boolean successful;
+    public Boolean successful;
     private String message;
 
     public LoginRequest(String email, String password) {

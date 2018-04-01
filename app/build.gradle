@@ -36,6 +36,7 @@ dependencies {
     implementation "android.arch.lifecycle:livedata:1.1.0"
 
     annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+    implementation 'com.google.firebase:firebase-storage:11.0.4'
 
     // Test helpers for LiveData
     testImplementation "android.arch.core:core-testing:1.1.0"

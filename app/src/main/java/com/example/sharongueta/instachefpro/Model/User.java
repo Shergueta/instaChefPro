@@ -10,13 +10,16 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
+    private String logoUrl;
 
-    public User(String userId, String email, String firstName, String lastName) {
+    public User(String userId, String email, String firstName, String lastName, String logoUrl) {
         this.userId = userId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.logoUrl = logoUrl;
     }
+
 
     public User() {
     }
@@ -53,6 +56,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
 
     @Override
     public String toString() {
@@ -61,7 +72,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", logoUrl='" + logoUrl + '\'' +
                 '}';
     }
-
 }

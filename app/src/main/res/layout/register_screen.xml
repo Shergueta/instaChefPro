@@ -103,20 +103,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/register_screen_passwordText" />
 
+    <ProgressBar
+        android:id="@+id/register_screen_addPhoto_Progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="25dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_screen_passwordText" />
+
+
     <Button
         android:id="@+id/register_screen_RegisterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="176dp"
         android:text="Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_screen_PasswordPlainText" />
 
     <ProgressBar
-        android:id="@+id/register_screen_progress_bar"
+        android:id="@+id/register_screen_done_progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -127,5 +139,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_screen_RegisterButton" />
+
+    <Button
+        android:id="@+id/register_screen_AddPicButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Add Photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/register_screen_imageView" />
+
+
+    <ImageView
+        android:id="@+id/register_screen_imageView"
+        android:layout_width="124dp"
+        android:layout_height="86dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/register_screen_RegisterButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/register_screen_AddPicButton"
+        app:layout_constraintTop_toBottomOf="@+id/register_screen_PasswordPlainText"
+        app:srcCompat="@drawable/common_full_open_on_phone" />
+
 
 </android.support.constraint.ConstraintLayout>

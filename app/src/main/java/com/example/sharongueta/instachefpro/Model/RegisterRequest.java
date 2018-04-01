@@ -1,5 +1,7 @@
 package com.example.sharongueta.instachefpro.Model;
 
+import android.widget.ImageView;
+
 /**
  * Created by sharongueta on 18/03/2018.
  */
@@ -11,14 +13,17 @@ public class RegisterRequest {
     private Exception exception;
     private String message;
     private boolean successful;
+    private ImageView profileImage;
 
-    public RegisterRequest(String userId, String email, String password, Exception exception, String message, boolean successful) {
+
+    public RegisterRequest(String userId, String email, String password, Exception exception, String message, boolean successful, ImageView profileImage) {
         this.userId = userId;
         this.email = email;
         this.password = password;
         this.exception = exception;
         this.message = message;
         this.successful = successful;
+        this.profileImage = profileImage;
     }
 
     public RegisterRequest(String email, String password) {
@@ -75,5 +80,13 @@ public class RegisterRequest {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public ImageView getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(ImageView profileImage) {
+        this.profileImage = profileImage;
     }
 }

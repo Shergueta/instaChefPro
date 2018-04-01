@@ -1,7 +1,10 @@
 package com.example.sharongueta.instachefpro.Activities;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,15 +12,18 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.sharongueta.instachefpro.AuthViewModel;
 import com.example.sharongueta.instachefpro.Model.RegisterRequest;
+import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
 import com.example.sharongueta.instachefpro.Model.ServerRequest;
 import com.example.sharongueta.instachefpro.Model.User;
 import com.example.sharongueta.instachefpro.R;
 import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by sharongueta on 19/03/2018.
@@ -25,15 +31,17 @@ import com.google.firebase.auth.FirebaseAuthEmailException;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String YA ="d" ;
-    private ProgressBar progressBar;
+    private static final int GALLERY_REQUEST_CODE = 888;
+    private static final String YA = " ";
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
-    //private Spinner collegeSpinner;
     private Button registerBtn;
-
+    private ImageView profileImage;
+    private Button addPhotoButton;
+    private ProgressBar progressBar;
+    private ProgressBar addPhotoProgressBar;
     private AuthViewModel authVm;
 
     @Override
@@ -43,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.register_screen);
 
         authVm = ViewModelProviders.of(this).get(AuthViewModel.class);
-
         bindWidgets();
         setListeners();
 
@@ -55,32 +62,81 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         lastNameEditText = findViewById(R.id.register_screen_LastNamePlainText);
         emailEditText = findViewById(R.id.register_screen_EmailPlainText);
         passwordEditText= findViewById(R.id.register_screen_PasswordPlainText);
-        progressBar= findViewById(R.id.register_screen_progress_bar);
         registerBtn =  findViewById(R.id.register_screen_RegisterButton);
+        profileImage = findViewById(R.id.register_screen_imageView);
+        addPhotoButton = findViewById(R.id.register_screen_AddPicButton);
+        addPhotoProgressBar = findViewById(R.id.register_screen_addPhoto_Progress_bar);
+        progressBar = findViewById(R.id.register_screen_done_progress_bar);
 
     }
 
 
     private void setListeners() {
         registerBtn.setOnClickListener(this);
+        addPhotoButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
+
+            case R.id.register_screen_AddPicButton:
+                addImage();
+                break;
+
             case R.id.register_screen_RegisterButton:
                 registerBtn.setClickable(false);
                 registerUser();
                 break;
+
+
+
+          //  case R.id.button2:
+
         }
     }
+
+    private void addImage() {
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        addPhotoButton.setVisibility(View.GONE);
+        addPhotoProgressBar.setVisibility(View.VISIBLE);
+        final Uri localPhotoUri = data.getData();
+
+        if(requestCode==GALLERY_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
+
+            authVm.uploadProfilePhoto(data.getData().toString()).observe(this, new Observer<ResourceUploadRequest>() {
+                @Override
+                public void onChanged(@Nullable ResourceUploadRequest resourceUploadRequest) {
+                    addPhotoProgressBar.setVisibility(View.GONE);
+                    addPhotoButton.setVisibility(View.VISIBLE);
+
+                    if (resourceUploadRequest.isSucceeded()){
+                        authVm.setProfilePhotoUrl(resourceUploadRequest.getDownloadUri().toString());
+                        Picasso.with(getApplicationContext()).load(localPhotoUri).into(profileImage);
+                    } else {
+                        authVm.setProfilePhotoUrl("NO_LOGO");
+                        Toast.makeText(getApplicationContext(), resourceUploadRequest.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
     private void registerUser() {
 
         User userToRegister = new User();
         userToRegister.setEmail(emailEditText.getText().toString().trim());
         userToRegister.setFirstName(firstNameEditText.getText().toString().trim());
         userToRegister.setLastName(lastNameEditText.getText().toString().trim());
+        userToRegister.setLogoUrl(authVm.getProfilePhotoUrl());
         String userPassword = passwordEditText.getText().toString();
 
         if (userDetailsAreValid(userToRegister) && isPasswordIsValid(userPassword)) {
@@ -160,6 +216,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         });
     }
+
     private void createUserWithDetails(User userToRegister) {
 
         authVm.createUser(userToRegister).observe(this, new Observer<ServerRequest>() {
