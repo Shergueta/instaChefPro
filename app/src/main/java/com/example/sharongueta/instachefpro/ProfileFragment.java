@@ -46,8 +46,8 @@ public class ProfileFragment extends Fragment  {
                 @Override
                 public void onChanged(@Nullable User user) {
                     // get url from user
-
                     loadImageFromUrl(user.getLogoUrl());
+
 
                 }
             });
@@ -57,6 +57,8 @@ public class ProfileFragment extends Fragment  {
 
         return view;
     }
+
+
 
     private void bindWidgetsOfView(View view){
 

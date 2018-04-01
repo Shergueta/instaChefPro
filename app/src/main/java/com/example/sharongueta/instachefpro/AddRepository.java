@@ -40,6 +40,7 @@ class AddRepository {
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
+    String recipeKey;
 
     public AddRepository() {
     }
@@ -76,7 +77,7 @@ class AddRepository {
         final MutableLiveData<CreateRecipeRequest> liveData = new MutableLiveData<>();
 
         DatabaseReference recipeToAddRef = recipes.push();
-        final String recipeKey = recipeToAddRef.getKey();
+         recipeKey = recipeToAddRef.getKey();
 
         recipeToAddRef.setValue(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -101,10 +102,9 @@ class AddRepository {
     public LiveData<CreateRecipeRequest> addToDbRecipesId(final Recipe recipe){
         final MutableLiveData<CreateRecipeRequest> liveData = new MutableLiveData<>();
 
-        DatabaseReference recipeToAddRef = usersRecipes.push();
-        final String recipeKey = recipeToAddRef.getKey();
+        DatabaseReference recipeToAddRef = usersRecipes.child(recipe.getUserId());
 
-        recipeToAddRef.setValue(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
+        recipeToAddRef.child(recipeKey).setValue(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
