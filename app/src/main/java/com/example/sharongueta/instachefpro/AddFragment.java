@@ -88,9 +88,8 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.add_screen_finishButton:
+                finishButton.setClickable(false);
                 createRecipe();
-                Toast.makeText(getContext(), "your recipe added", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getContext(), MainActivity.class));
                 break;
 
         }
@@ -144,10 +143,12 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
         recipe.setUrlPhoto(addVm.getRecipePhotoUrl());
         recipe.setUserId(userViewModel.getUserId());
 
-        if (recipeDetailsAreValid(recipe)) {
+        if (recipeDetailsAreValid(recipe) == true) {
             createRecipeWithDetails(recipe);
-
-        } else
+            Toast.makeText(getContext(), "your recipe added", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), MainActivity.class));
+        }
+        else
             finishButton.setClickable(true);
     }
 
@@ -155,7 +156,39 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
 
     private boolean recipeDetailsAreValid(Recipe recipe) {
 
-        return true;
+       //return (isValid(recipe.getName())&& isValid(recipe.getIngredients())&&isValid(recipe.getDescription()));
+
+        if (isValid(recipe.getName())) {
+            if (isValid(recipe.getIngredients())) {
+
+            if (isValid(recipe.getDescription())) {
+                    return true;
+                }
+                else {
+                description.setError("description must not be empty");
+                description.requestFocus();
+                return false;
+                }
+            } else {
+
+                ingredients.setError("ingredients must not be empty");
+                ingredients.requestFocus();
+                return false;
+
+            }
+        } else {
+            recipeName.setError("recipe name must not be empty");
+            recipeName.requestFocus();
+            return false;
+        }
+
+
+    }
+    private boolean isValid(String name) {
+
+        if(name.isEmpty())
+            return false;
+        else return true;
     }
 
     private void createRecipeWithDetails(final Recipe recipeToAdd) {

@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/recipes_list_row_ImageRecipe"
+        android:id="@+id/recipes_liw_ImageRecipest_ro"
         android:layout_width="48dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/profile_screen_profile_photo"
+        android:id="@+id/recipe_list_row_recipeNamebuttom"
         android:layout_width="139dp"
         android:layout_height="40dp"
         android:layout_marginEnd="164dp"
@@ -25,7 +25,7 @@
         android:layout_marginTop="30dp"
         android:text="recipe name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recipes_list_row_ImageRecipe"
+        app:layout_constraintStart_toEndOf="@+id/recipes_liw_ImageRecipest_ro"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

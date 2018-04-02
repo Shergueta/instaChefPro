@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
 import com.example.sharongueta.instachefpro.Model.ServerRequest;
 import com.example.sharongueta.instachefpro.Model.User;
@@ -22,6 +23,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -34,6 +37,8 @@ public class UserRepository {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+    DatabaseReference userRecipes= database.getReference("UserRecipes");
 
     DatabaseReference usersRef = database.getReference("users");
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -122,4 +127,37 @@ public class UserRepository {
         return  currentUserId;
         }
 
+
+    public LiveData<List<Recipe>> getRecipesUserList() {
+
+            final MutableLiveData<List<Recipe>> recipesUserLiveDataList = new MutableLiveData<>();
+            final String currentUserId = firebaseAuth.getCurrentUser().getUid();
+
+            userRecipes.child(currentUserId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                    List<Recipe> recipesList = new ArrayList<>();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()){
+                        Recipe r =  new Recipe();
+                        r.setRecipeId(ds.getKey());
+                        r.setName(ds.getValue(Recipe.class).getName());
+                        r.setUrlPhoto(ds.getValue(Recipe.class).getUrlPhoto());
+                        r.setDescription(ds.getValue(Recipe.class).getDescription());
+                        r.setIngredients(ds.getValue(Recipe.class).getIngredients());
+                        recipesList.add(r);
+                    }
+                    recipesUserLiveDataList.setValue(recipesList);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            return recipesUserLiveDataList;
+
+    }
 }

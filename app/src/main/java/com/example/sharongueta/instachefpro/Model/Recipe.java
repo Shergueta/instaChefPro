@@ -13,8 +13,7 @@ public class Recipe  {
     private String recipeId;
     private String userId;
 
-
-    public Recipe(String name, String ingredients, String description, String urlPhoto, String recipeId,String userId) {
+    public Recipe(String name, String ingredients, String description, String urlPhoto, String recipeId, String userId) {
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;
