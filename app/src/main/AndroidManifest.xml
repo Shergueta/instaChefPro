@@ -25,6 +25,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.RegisterActivity"
+            android:label="@string/app_name"
+            />
+
+        <activity
+            android:name=".Activities.RecipeDetailsActivity"
             android:label="@string/app_name" />
         <!--<activity android:name=".Activities.LoginActivity"></activity>-->
     </application>

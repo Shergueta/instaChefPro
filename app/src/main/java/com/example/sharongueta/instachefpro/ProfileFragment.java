@@ -2,10 +2,10 @@ package com.example.sharongueta.instachefpro;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.sharongueta.instachefpro.Activities.RecipeDetailsActivity;
 import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.User;
 import com.squareup.picasso.Callback;
@@ -38,8 +39,6 @@ public class ProfileFragment extends Fragment  {
     private ProgressBar userRecipesProgressBar;
     private ProgressBar userDetailsProgressBar;
     private UserViewModel userVm;
-
-
 
 
 
@@ -161,12 +160,15 @@ public class ProfileFragment extends Fragment  {
             }
 
             Button recipeName= view.findViewById(R.id.recipe_list_row_recipeNamebuttom);
+
             final ImageView recipeImage = view.findViewById(R.id.recipes_liw_ImageRecipest_ro);
+
 
 
 
             final Recipe recipe = userVm.getUserRecipesSnapshotList().get(position);
             recipeName.setText(recipe.getName());
+            String ids = recipe.getRecipeId();
 
             if (recipe.getUrlPhoto() != null && !recipe.getUrlPhoto().equals("NO_LOGO"))
                 Picasso.with(getContext()).load(recipe.getUrlPhoto()).networkPolicy(NetworkPolicy.OFFLINE).into(recipeImage, new Callback() {
@@ -185,31 +187,37 @@ public class ProfileFragment extends Fragment  {
                                         @Override
                                         public void onClick(View view) {
 
-                                            RecipeFragment nextFrag = new RecipeFragment();
-                                            FragmentManager manager = getFragmentManager();
-                                            manager.beginTransaction()
-                                                    .replace(R.id.profile_main,nextFrag,nextFrag.getTag())
-                                                    .commit();
+
+                                            Intent intent = new Intent(getContext(), RecipeDetailsActivity.class);
+                                            String id =recipe.getRecipeId();
+                                            intent.putExtra("recipeId", id);
+                                            //intent.putExtra("viewType", "offerCourseDetails");
+                                            startActivity(intent);
 
 
-//                                            RecipeFragment nextFrag = new RecipeFragment();
-//                                            getActivity().getSupportFragmentManager().beginTransaction()
-//                                                    .replace(R.id.profile_main, nextFrag, "findThisFragment")
-//                                                    .addToBackStack(null);
+//                                             RecipeDetailsFragment nextFrag = new RecipeDetailsFragment();
+//                                                FragmentManager manager = getFragmentManager();
+//                                                manager.beginTransaction()
+//
+//                                                        .replace(R.id.profile_main, nextFrag, nextFrag.getTag())
+//                                                        .commit();
+
+//
+//                                            FragmentManager fm = getFragmentManager();
+//                                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//                                            fragmentTransaction.replace(R.id.profile_main, new RecipeDetailsFragment());
+//                                            fragmentTransaction.commit();
+
                                         }
                                     });
 
         return view;
+
         }
     }
 }
 
-        //                        case R.id.recipe_list_row_recipeNamebuttom:
-//                            Intent intent = new Intent(getContext(), Recipe.class);
-//                    intent.putExtra("recipeId", recipe.getRecipeId());
-//                    intent.putExtra("viewType", "offerCourseDetails");
-//                    startActivity(intent);
-//                    break;
+
 
 
 

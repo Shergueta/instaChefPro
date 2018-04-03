@@ -44,6 +44,7 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
     private EditText description;
     private EditText ingredients;
 
+
     public AddFragment() {
     }
 
@@ -214,6 +215,7 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChanged(@Nullable CreateRecipeRequest createRecipeRequest) {
                 progressBarFinish.setVisibility(View.GONE);
+
                 if (createRecipeRequest.isSuccess()){
 
                     Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
