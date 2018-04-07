@@ -48,7 +48,7 @@ public class RecipeRepository {
 
     public LiveData<List<Recipe>> getAllRecipes() {
 
-        final MutableLiveData<List<Recipe>> courseDetailsListLiveData = new MutableLiveData<>();
+        final MutableLiveData<List<Recipe>> recipeDetailsListLiveData = new MutableLiveData<>();
 
         DatabaseReference coursesRef = database.getReference("Recipes");
 
@@ -61,10 +61,14 @@ public class RecipeRepository {
                     cd.setRecipeId(ds.getKey());
                     cd.setName(ds.getValue(Recipe.class).getName());
                     cd.setUrlPhoto(ds.getValue(Recipe.class).getUrlPhoto());
+                    cd.setUserId(ds.getValue(Recipe.class).getUserId());
+                    cd.setIngredients(ds.getValue(Recipe.class).getIngredients());
+                    cd.setDescription(ds.getValue(Recipe.class).getDescription());
                     recipeDetailsList.add(cd);
+
                 }
 
-                courseDetailsListLiveData.setValue(recipeDetailsList);
+               recipeDetailsListLiveData.setValue(recipeDetailsList);
             }
 
             @Override
@@ -73,7 +77,7 @@ public class RecipeRepository {
             }
         });
 
-        return courseDetailsListLiveData;
+        return recipeDetailsListLiveData;
     }
 
 }

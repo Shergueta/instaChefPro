@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.example.sharongueta.instachefpro.Activities.RecipeDetailsActivity;
 import com.example.sharongueta.instachefpro.Model.Recipe;
-import com.example.sharongueta.instachefpro.Model.SearchRecipesViewModel;
+import com.example.sharongueta.instachefpro.Model.RecipeViewModel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -43,7 +43,7 @@ public class SearchFragment extends Fragment {
     private ListView recipesList;
     ProgressBar progressBar ;
 
-    private SearchRecipesViewModel searchRecipeVm;
+    private RecipeViewModel searchRecipeVm;
     private RecipeListAdapter recipeListAdapter;
 
 
@@ -52,7 +52,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view= inflater.inflate(R.layout.search_screen,container,false);
-        searchRecipeVm = ViewModelProviders.of(this).get(SearchRecipesViewModel.class);
+        searchRecipeVm = ViewModelProviders.of(this).get(RecipeViewModel.class);
 
         bindWidgetsOfView(view);
         setupAdapter();

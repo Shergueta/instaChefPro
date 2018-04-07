@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.sharongueta.instachefpro.Model.Recipe;
+import com.example.sharongueta.instachefpro.Model.RecipeViewModel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;

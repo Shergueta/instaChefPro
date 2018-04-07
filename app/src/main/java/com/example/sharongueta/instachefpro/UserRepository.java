@@ -127,6 +127,25 @@ public class UserRepository {
         return  currentUserId;
         }
 
+    public LiveData<User> getUserById(String id) {
+        final MutableLiveData<User> userLiveData = new MutableLiveData<>();
+
+        usersRef.child(id).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        return userLiveData;
+
+    }
+
 
     public LiveData<List<Recipe>> getRecipesUserList() {
 

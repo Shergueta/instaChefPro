@@ -34,6 +34,10 @@ public class UserViewModel extends ViewModel {
         return currentUser;
     }
 
+    public LiveData<User> getUserById(String id){
+        return userRepository.getUserById(id);
+    }
+
     public String getUserId() {
         return userId;
     }

@@ -12,7 +12,7 @@ import java.util.List;
  * Created by sharongueta on 04/04/2018.
  */
 
-public class SearchRecipesViewModel extends ViewModel {
+public class RecipeViewModel extends ViewModel {
 
     private LiveData<List<Recipe>> recipesDetailsLiveDataList;
     private List<Recipe> recipesDetailsSnapshotList = new ArrayList<>();
@@ -20,12 +20,16 @@ public class SearchRecipesViewModel extends ViewModel {
 
     private final RecipeRepository recipeRepository;
 
-    public SearchRecipesViewModel() {
+    public RecipeViewModel() {
         recipeRepository = RecipeRepository.getInstance();
         recipesDetailsLiveDataList = recipeRepository.getAllRecipes();
         filteredRecipesDetailsSnapshotList = recipesDetailsSnapshotList;
     }
 
+    public LiveData<Recipe> getRecipe(String recipeId){
+
+        return recipeRepository.getRecipe(recipeId);
+    }
     public LiveData<List<Recipe>> getAllRecipes() {
         return recipesDetailsLiveDataList;
     }
@@ -46,3 +50,4 @@ public class SearchRecipesViewModel extends ViewModel {
         this.filteredRecipesDetailsSnapshotList = filteredRecipesDetailsSnapshotList;
     }
 }
+

@@ -12,13 +12,16 @@ public class CreateRecipeRequest {
 
     public String message;
 
+    public String userId;
+
     public CreateRecipeRequest() {
     }
 
-    public CreateRecipeRequest(String idRecipe, Boolean success, String message) {
+    public CreateRecipeRequest(String idRecipe, Boolean successful, String message, String userId) {
         this.idRecipe = idRecipe;
-        this.successful = success;
+        this.successful = successful;
         this.message = message;
+        this.userId = userId;
     }
 
     public CreateRecipeRequest(boolean successful, String message, String idRecipe) {
@@ -51,5 +54,14 @@ public class CreateRecipeRequest {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
