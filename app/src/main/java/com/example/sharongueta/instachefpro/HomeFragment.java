@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
         recipeVm = ViewModelProviders.of(this).get(RecipeViewModel.class);
         userVm = ViewModelProviders.of(this).get(UserViewModel.class);
 
+
         bindWidgets(view);
        // getAllRecipes();
         populateFeedList();
@@ -67,6 +68,7 @@ public class HomeFragment extends Fragment {
 
       postsList = view.findViewById(R.id.home_screen_listView);
       progressBar = view.findViewById(R.id.home_screen_progressBar);
+
 
     }
 
@@ -83,7 +85,19 @@ public class HomeFragment extends Fragment {
                 adapter.notifyDataSetChanged();
 
             }
+
+
+
         });
+        userVm.getAllUsers().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable List<User> users) {
+                userVm.setAllUsersSnapshotList(users);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
     }
 
 
@@ -118,21 +132,48 @@ public class HomeFragment extends Fragment {
                 final ImageView userProfileImage = view.findViewById(R.id.home_list_row_userProfileImage);
                 final ImageView recipeImage = view.findViewById(R.id.home_list_row_recipeImage);
 
+
+//                Bitmap mbitmap = ((BitmapDrawable) getResources().getDrawable(R.drawable.pzaza)).getBitmap();
+//                Bitmap imageRounded = Bitmap.createBitmap(mbitmap.getWidth(), mbitmap.getHeight(), mbitmap.getConfig());
+//                Canvas canvas = new Canvas(imageRounded);
+//                Paint mpaint = new Paint();
+//                mpaint.setAntiAlias(true);
+//                mpaint.setShader(new BitmapShader(mbitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+//                canvas.drawRoundRect((new RectF(500, 500, mbitmap.getWidth(), mbitmap.getHeight())), 7000, 7000, mpaint);// Round Image Corner 100 100 100 100
+//                userProfileImage.setImageBitmap(imageRounded);
+
+
+
+
                 final Recipe recipe = recipeVm.getRecipesDetailsSnapshotList().get(position);
 
-                int i = getUserById(recipe.getUserId());
+                recipeName.setText(recipe.getName());
+                for (int i = 0 ; i < userVm.getAllUsersSnapshotList().size();i++){
+                    String userIdFromUser= userVm.getAllUsersSnapshotList().get(i).getUserId();
+                    String userIdFromRecipe= recipeVm.getRecipesDetailsSnapshotList().get(position).getUserId();
+                    if(userIdFromUser.equals(userIdFromRecipe)){
+                        final User user = userVm.getAllUsersSnapshotList().get(i);
+                        userName.setText(user.getFirstName()+user.getLastName());
+                        if( user.getLogoUrl()!=null&& !user.getLogoUrl().equals("NO_LOGO"))
+                            Picasso.with(getContext()).load(user.getLogoUrl()).networkPolicy(NetworkPolicy.OFFLINE).into(userProfileImage, new Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Picasso.with(getContext()).load(recipe.getUrlPhoto()).into(recipeImage);
+                                }
+                            });
+
+                        break;
+                    }
+                }
 
 
 
-
-                /////////////*********************///////////
-
-
-
-
-                userName.setText(nameOfUser);
-
-                String ids = recipe.getRecipeId();
+                //String ids = recipe.getRecipeId();
 
                 if (recipe.getUrlPhoto() != null && !recipe.getUrlPhoto().equals("NO_LOGO"))
                     Picasso.with(getContext()).load(recipe.getUrlPhoto()).networkPolicy(NetworkPolicy.OFFLINE).into(recipeImage, new Callback() {
@@ -148,18 +189,18 @@ public class HomeFragment extends Fragment {
                     });
 
 
-                if (urlProfilePhoto != null && !recipe.getUrlPhoto().equals("NO_LOGO"))
-                    Picasso.with(getContext()).load(urlProfilePhoto).networkPolicy(NetworkPolicy.OFFLINE).into(userProfileImage, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(getContext()).load(recipe.getUrlPhoto()).into(recipeImage);
-                        }
-                    });
+//                if (urlProfilePhoto != null && !user.getLogoUrl().equals("NO_LOGO"))
+//                    Picasso.with(getContext()).load(user.getLogoUrl()).networkPolicy(NetworkPolicy.OFFLINE).into(userProfileImage, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError() {
+//                            Picasso.with(getContext()).load(recipe.getUrlPhoto()).into(recipeImage);
+//                        }
+//                    });
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override

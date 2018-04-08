@@ -179,4 +179,36 @@ public class UserRepository {
             return recipesUserLiveDataList;
 
     }
+
+    public LiveData<List<User>> getUsersList() {
+
+            final MutableLiveData<List<User>> usersLiveDataList = new MutableLiveData<>();
+
+            usersRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<User> usersList = new ArrayList<>();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()){
+                        User user=  new User();
+                        user.setFirstName(ds.getValue(User.class).getFirstName());
+                        user.setLogoUrl(ds.getValue(User.class).getLogoUrl());
+                        user.setLastName(ds.getValue(User.class).getLastName());
+                        user.setUserId(ds.getValue(User.class).getUserId());
+                        user.setEmail(ds.getValue(User.class).getEmail());
+                        usersList.add(user);
+
+                    }
+
+                    usersLiveDataList.setValue(usersList);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+            return usersLiveDataList;
+    }
 }

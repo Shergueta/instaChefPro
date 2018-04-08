@@ -20,6 +20,9 @@ public class UserViewModel extends ViewModel {
     private LiveData<User> currentUser;
     private List<Recipe> userRecipesSnapshotList = new ArrayList<>();
     private LiveData<List<Recipe>> userRecipesLiveDataList;
+    private LiveData<List<User>> usersLiveDataList;
+    private List<User> allUsersSnapshotList = new ArrayList<>();
+
     private String userId;
 
 
@@ -28,6 +31,7 @@ public class UserViewModel extends ViewModel {
         currentUser = userRepository.getCurrentUser();
         userId = userRepository.getCurrentUserID();
         userRecipesLiveDataList = userRepository.getRecipesUserList();
+        usersLiveDataList = userRepository.getUsersList();
     }
 
     public LiveData<User> getCurrentUser() {
@@ -56,4 +60,20 @@ public class UserViewModel extends ViewModel {
         this.userRecipesSnapshotList = userRecipesSnapshotList;
     }
 
+
+    public LiveData<List<User>> getAllUsers() {
+        return usersLiveDataList;
+    }
+
+    public void setUsersLiveDataList(LiveData<List<User>> usersLiveDataList) {
+        this.usersLiveDataList = usersLiveDataList;
+    }
+
+    public List<User> getAllUsersSnapshotList() {
+        return allUsersSnapshotList;
+    }
+
+    public void setAllUsersSnapshotList(List<User> allUsersSnapshotList) {
+        this.allUsersSnapshotList = allUsersSnapshotList;
+    }
 }

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         sectionsPageAdapter.addFragment(new ProfileFragment());
         sectionsPageAdapter.addFragment(new SearchFragment());
         sectionsPageAdapter.addFragment(new AddFragment());
-        sectionsPageAdapter.addFragment(new MapFragment());
+        sectionsPageAdapter.addFragment(new MapsFragment());
         sectionsPageAdapter.addFragment(new HomeFragment() );
 
         viewPager.setAdapter(sectionsPageAdapter);
