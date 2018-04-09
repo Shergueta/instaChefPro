@@ -8,26 +8,31 @@
 
     <ImageView
         android:id="@+id/recipes_liw_ImageRecipest_ro"
-        android:layout_width="48dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
->
-    </ImageView>
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <!--android:src="@mipmap/ic_launcher"-->
 
         />
+
     <Button
         android:id="@+id/recipe_list_row_recipeNamebuttom"
+        style="@android:style/Widget.Material.Light.Button.Borderless.Small"
         android:layout_width="139dp"
         android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="164dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="30dp"
         android:text="recipe name"
+        android:textAppearance="@style/TextAppearance.Design.Tab"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/recipes_liw_ImageRecipest_ro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/recipes_liw_ImageRecipest_ro"
         app:layout_constraintTop_toTopOf="parent" />

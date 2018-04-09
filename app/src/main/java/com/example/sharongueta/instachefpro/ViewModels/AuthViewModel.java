@@ -1,4 +1,4 @@
-package com.example.sharongueta.instachefpro;
+package com.example.sharongueta.instachefpro.ViewModels;
 
 
 import android.arch.lifecycle.LiveData;
@@ -9,6 +9,8 @@ import com.example.sharongueta.instachefpro.Model.RegisterRequest;
 import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
 import com.example.sharongueta.instachefpro.Model.ServerRequest;
 import com.example.sharongueta.instachefpro.Model.User;
+import com.example.sharongueta.instachefpro.Repositories.AuthRepository;
+import com.example.sharongueta.instachefpro.Repositories.UserRepository;
 
 /**
  * Created by sharongueta on 19/03/2018.

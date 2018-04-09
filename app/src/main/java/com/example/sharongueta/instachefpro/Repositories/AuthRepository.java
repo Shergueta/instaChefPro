@@ -1,4 +1,4 @@
-package com.example.sharongueta.instachefpro;
+package com.example.sharongueta.instachefpro.Repositories;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * Created by sharongueta on 19/03/2018.
  */
 
-class AuthRepository {
+public class AuthRepository {
     private static final AuthRepository ourInstance = new AuthRepository();
     private FirebaseAuth mAuth;
 

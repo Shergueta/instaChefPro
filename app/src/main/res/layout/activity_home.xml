@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/laight"
-    tools:context="com.example.sharongueta.instachefpro.MainActivity">
+    tools:context="com.example.sharongueta.instachefpro.Activities.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

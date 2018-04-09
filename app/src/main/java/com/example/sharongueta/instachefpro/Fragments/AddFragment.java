@@ -1,4 +1,4 @@
-package com.example.sharongueta.instachefpro;
+package com.example.sharongueta.instachefpro.Fragments;
 
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
@@ -18,9 +18,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.sharongueta.instachefpro.ViewModels.AddViewModel;
+import com.example.sharongueta.instachefpro.Activities.MainActivity;
 import com.example.sharongueta.instachefpro.Model.CreateRecipeRequest;
 import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
+import com.example.sharongueta.instachefpro.R;
+import com.example.sharongueta.instachefpro.ViewModels.UserViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
@@ -246,7 +250,6 @@ public class AddFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onChanged(@Nullable Location location) {
                 addVm.setCurrentLocation(location);
-                Toast.makeText(getContext(), "location change", Toast.LENGTH_SHORT).show();
             }
         });
 

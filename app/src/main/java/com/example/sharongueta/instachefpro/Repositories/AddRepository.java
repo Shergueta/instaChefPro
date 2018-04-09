@@ -1,4 +1,4 @@
-package com.example.sharongueta.instachefpro;
+package com.example.sharongueta.instachefpro.Repositories;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -26,7 +26,7 @@ import java.util.UUID;
  * Created by sharongueta on 28/03/2018.
  */
 
-class AddRepository {
+public class AddRepository {
 
     private static final AddRepository ourInstance = new AddRepository();
     public FusedLocationProviderClient mFusedLocationProviderClient;

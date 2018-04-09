@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.sharongueta.instachefpro.AuthViewModel;
+import com.example.sharongueta.instachefpro.ViewModels.AuthViewModel;
 import com.example.sharongueta.instachefpro.Model.RegisterRequest;
 import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
 import com.example.sharongueta.instachefpro.Model.ServerRequest;

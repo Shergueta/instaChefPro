@@ -1,10 +1,11 @@
-package com.example.sharongueta.instachefpro;
+package com.example.sharongueta.instachefpro.ViewModels;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.User;
+import com.example.sharongueta.instachefpro.Repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;

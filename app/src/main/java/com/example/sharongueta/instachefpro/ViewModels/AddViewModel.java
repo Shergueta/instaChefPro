@@ -1,5 +1,5 @@
 
-package com.example.sharongueta.instachefpro;
+package com.example.sharongueta.instachefpro.ViewModels;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
@@ -8,6 +8,7 @@ import android.location.Location;
 import com.example.sharongueta.instachefpro.Model.CreateRecipeRequest;
 import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
+import com.example.sharongueta.instachefpro.Repositories.AddRepository;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 /**

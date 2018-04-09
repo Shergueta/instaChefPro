@@ -1,9 +1,17 @@
-package com.example.sharongueta.instachefpro;
+package com.example.sharongueta.instachefpro.Activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.sharongueta.instachefpro.Fragments.AddFragment;
+import com.example.sharongueta.instachefpro.Fragments.HomeFragment;
+import com.example.sharongueta.instachefpro.Fragments.MapsFragment;
+import com.example.sharongueta.instachefpro.Fragments.ProfileFragment;
+import com.example.sharongueta.instachefpro.Fragments.SearchFragment;
+import com.example.sharongueta.instachefpro.R;
+import com.example.sharongueta.instachefpro.SectionsPageAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
