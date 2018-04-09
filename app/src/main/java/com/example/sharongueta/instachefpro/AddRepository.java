@@ -29,7 +29,6 @@ import java.util.UUID;
 class AddRepository {
 
     private static final AddRepository ourInstance = new AddRepository();
-    private static final String YA =" " ;
     public FusedLocationProviderClient mFusedLocationProviderClient;
 
     public static AddRepository getInstance() {

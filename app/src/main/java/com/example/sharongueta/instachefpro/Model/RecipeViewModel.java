@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModel;
 import com.example.sharongueta.instachefpro.RecipeRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,15 +19,10 @@ public class RecipeViewModel extends ViewModel {
     private List<Recipe> filteredRecipesDetailsSnapshotList;
 
 
-    public HashMap<String, String> meMap=new HashMap<String, String>();
-
-
     private final RecipeRepository recipeRepository;
 
     public RecipeViewModel() {
-        meMap = new HashMap<>();
-      //  meMap.put("bla","ha");
-       // String res = meMap.get("bla");
+
         recipeRepository = RecipeRepository.getInstance();
         recipesDetailsLiveDataList = recipeRepository.getAllRecipes();
         filteredRecipesDetailsSnapshotList = recipesDetailsSnapshotList;
@@ -58,12 +52,5 @@ public class RecipeViewModel extends ViewModel {
         this.filteredRecipesDetailsSnapshotList = filteredRecipesDetailsSnapshotList;
     }
 
-    public HashMap<String, String> getMeMap() {
-        return meMap;
-    }
-
-    public void setMeMap(HashMap<String, String> meMap) {
-        this.meMap = meMap;
-    }
 }
 

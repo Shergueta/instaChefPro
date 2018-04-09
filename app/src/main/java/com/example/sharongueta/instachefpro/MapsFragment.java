@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.sharongueta.instachefpro.Activities.RecipeDetailsActivity;
 import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.RecipeViewModel;
 import com.google.android.gms.common.ConnectionResult;
@@ -35,6 +37,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -43,10 +46,10 @@ import java.util.List;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, LocationListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    RecipeViewModel recipeVm;
-
     Button buttonGo;
     EditText whereToGo;
+    RecipeViewModel recipeVm;
+
     GoogleMap mGoogleMap;
     GoogleApiClient mGoogleApiClient;
     LocationRequest locationRequest;
@@ -92,14 +95,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     }
 
-
     public boolean googleServicesAvailiable() {
         GoogleApiAvailability api = GoogleApiAvailability.getInstance();
-        int isAvilable = api.isGooglePlayServicesAvailable(getContext());
-        if (isAvilable == ConnectionResult.SUCCESS) {
+        int isAvailable = api.isGooglePlayServicesAvailable(getContext());
+        if (isAvailable == ConnectionResult.SUCCESS) {
             return true;
-        } else if (api.isUserResolvableError(isAvilable)) {
-            Dialog dialog = api.getErrorDialog(this.getActivity(), isAvilable, 0);
+        } else if (api.isUserResolvableError(isAvailable)) {
+            Dialog dialog = api.getErrorDialog(this.getActivity(), isAvailable, 0);
             dialog.show();
         } else {
             Toast.makeText(getContext(), "Cant to connect to play services", Toast.LENGTH_LONG).show();
@@ -112,20 +114,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         mGoogleMap = googleMap;
         goToLocation(32.053003, 34.777894, 10);
         getAllRecipe();
-
-
-
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user g√rants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-        //      mGoogleMap.setMyLocationEnabled(true);
 
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addApi(LocationServices.API)
@@ -156,7 +144,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public void onConnected(@Nullable Bundle bundle) {
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(1000);
+        locationRequest.setInterval(10000);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -228,7 +216,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -257,32 +244,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     .snippet(recipe.getRecipeId())
                     .title(recipe.getName())
                     .position(new LatLng(recipe.getLat(), recipe.getLon()));
+            mGoogleMap.addMarker(options);
 
-           // Toast.makeText(getContext(), options.getPosition().toString(), Toast.LENGTH_SHORT).show();
-           mGoogleMap.addMarker(options);
-           //mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(24.454417,54.380866)));
+            mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    String key = marker.getSnippet();
+                    //Toast.makeText(getContext(), "Clicked"+marker.getTitle(), Toast.LENGTH_SHORT).show();
+                    if (!key.isEmpty()) {
+                        Intent intent = new Intent(getContext(), RecipeDetailsActivity.class);
+                        intent.putExtra("recipeId", key);
 
 
-
-//            if (i==1 ){
-//                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(31.7993983,34.6358)));
-//            }
-//
-//            mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//                @Override
-//                public boolean onMarkerClick(Marker marker) {
-//                    String key = marker.getSnippet();
-//                    //Toast.makeText(getContext(), "Clicked"+marker.getTitle(), Toast.LENGTH_SHORT).show();
-//                    if (!key.isEmpty()) {
-//                        Intent intent = new Intent(getContext(), RecipeDetailsActivity.class);
-//                        intent.putExtra("recipeId", key);
-//
-//
-//                        startActivity(intent);
-//                    }
-//                    return false;
-//                }
-//            });
+                        startActivity(intent);
+                    }
+                    return false;
+                }
+            });
 
         }
     }

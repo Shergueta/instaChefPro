@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,6 @@ import com.squareup.picasso.Picasso;
 public class AddFragment extends Fragment implements View.OnClickListener{
 
     private static final int GALLERY_REQUEST_CODE = 999;
-    private static final String YA = " ";
 
 
     private Button addRecipePhoto;
@@ -40,11 +38,12 @@ public class AddFragment extends Fragment implements View.OnClickListener{
     private ProgressBar progressBarPhoto;
     private ProgressBar progressBarFinish;
     private ImageView recipePhoto;
-    private AddViewModel addVm;
-    private UserViewModel userViewModel;
     private EditText recipeName;
     private EditText description;
     private EditText ingredients;
+
+    private AddViewModel addVm;
+    private UserViewModel userViewModel;
    FusedLocationProviderClient mFusedLocationProviderClien;
 
 
@@ -113,7 +112,6 @@ public class AddFragment extends Fragment implements View.OnClickListener{
         addRecipePhoto.setVisibility(View.GONE);
         progressBarPhoto.setVisibility(View.VISIBLE);
         final Uri localImgUri = data.getData();
-        Log.d(YA, "onActivityResult: here ");
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
@@ -248,14 +246,11 @@ public class AddFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onChanged(@Nullable Location location) {
                 addVm.setCurrentLocation(location);
+                Toast.makeText(getContext(), "location change", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
-boolean checkPremission(){
-        return true;
-}
 
 
 }
