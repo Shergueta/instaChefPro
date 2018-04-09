@@ -12,15 +12,9 @@ public class Recipe  {
     private String urlPhoto;
     private String recipeId;
     private String userId;
+    private double lon;
+    private double lat;
 
-    public Recipe(String name, String ingredients, String description, String urlPhoto, String recipeId, String userId) {
-        this.name = name;
-        this.ingredients = ingredients;
-        this.description = description;
-        this.urlPhoto = urlPhoto;
-        this.recipeId = recipeId;
-        this.userId = userId;
-    }
 
     public Recipe(String userId) {
 
@@ -30,15 +24,17 @@ public class Recipe  {
     public Recipe() {
     }
 
-
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
+    public Recipe(String name, String ingredients, String description, String urlPhoto, String recipeId, String userId, double lon, double lat) {
+        this.name = name;
+        this.ingredients = ingredients;
+        this.description = description;
+        this.urlPhoto = urlPhoto;
+        this.recipeId = recipeId;
         this.userId = userId;
+        this.lon = lon;
+        this.lat = lat;
     }
+
 
     public String getName() {
         return name;
@@ -80,4 +76,27 @@ public class Recipe  {
         this.recipeId = recipeId;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
 }

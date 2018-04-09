@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,13 +22,14 @@ import android.widget.Toast;
 import com.example.sharongueta.instachefpro.Model.CreateRecipeRequest;
 import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
 
 /**
  * Created by sharongueta on 29/03/2018.
  */
-
-public  class AddFragment extends Fragment implements View.OnClickListener {
+public class AddFragment extends Fragment implements View.OnClickListener{
 
     private static final int GALLERY_REQUEST_CODE = 999;
     private static final String YA = " ";
@@ -43,6 +45,7 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
     private EditText recipeName;
     private EditText description;
     private EditText ingredients;
+   FusedLocationProviderClient mFusedLocationProviderClien;
 
 
     public AddFragment() {
@@ -51,12 +54,19 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.add_screen, container, false);
 
+        View view = inflater.inflate(R.layout.add_screen, container, false);
         bindViewsOfWidget(view);
         setListeners();
         addVm = ViewModelProviders.of(this).get(AddViewModel.class);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+
+
+        mFusedLocationProviderClien = LocationServices.getFusedLocationProviderClient(this.getActivity());
+        getDeviceLocation();
+
+
         return view;
     }
 
@@ -69,7 +79,7 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
         recipePhoto = view.findViewById(R.id.add_screen_recipeImage);
         recipeName = view.findViewById(R.id.add_screen_RecipeName_plainText);
         description = view.findViewById(R.id.add_screen_TheRecipe_plainText);
-        ingredients= view.findViewById(R.id.add_screen_ingredients_PlainText);
+        ingredients = view.findViewById(R.id.add_screen_ingredients_PlainText);
 
     }
 
@@ -98,6 +108,7 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 
         addRecipePhoto.setVisibility(View.GONE);
         progressBarPhoto.setVisibility(View.VISIBLE);
@@ -143,32 +154,31 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
         recipe.setIngredients(ingredients.getText().toString().trim());
         recipe.setUrlPhoto(addVm.getRecipePhotoUrl());
         recipe.setUserId(userViewModel.getUserId());
+        recipe.setLat(addVm.getCurrentLocation().getLatitude());
+        recipe.setLon(addVm.getCurrentLocation().getLongitude());
+        //recipe.setLocation(new Location());
 
         if (recipeDetailsAreValid(recipe) == true) {
             createRecipeWithDetails(recipe);
             Toast.makeText(getContext(), "your recipe added", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getContext(), MainActivity.class));
-        }
-        else
+        } else
             finishButton.setClickable(true);
     }
 
-
-
     private boolean recipeDetailsAreValid(Recipe recipe) {
 
-       //return (isValid(recipe.getName())&& isValid(recipe.getIngredients())&&isValid(recipe.getDescription()));
+        //return (isValid(recipe.getName())&& isValid(recipe.getIngredients())&&isValid(recipe.getDescription()));
 
         if (isValid(recipe.getName())) {
             if (isValid(recipe.getIngredients())) {
 
-            if (isValid(recipe.getDescription())) {
+                if (isValid(recipe.getDescription())) {
                     return true;
-                }
-                else {
-                description.setError("description must not be empty");
-                description.requestFocus();
-                return false;
+                } else {
+                    description.setError("description must not be empty");
+                    description.requestFocus();
+                    return false;
                 }
             } else {
 
@@ -185,9 +195,10 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
 
 
     }
+
     private boolean isValid(String name) {
 
-        if(name.isEmpty())
+        if (name.isEmpty())
             return false;
         else return true;
     }
@@ -199,14 +210,15 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
         addVm.createRecipe(recipeToAdd).observe(this, new Observer<CreateRecipeRequest>() {
             @Override
             public void onChanged(@Nullable CreateRecipeRequest createRecipeRequest) {
-              progressBarFinish.setVisibility(View.GONE);
-              if (createRecipeRequest.isSuccess()){
+                progressBarFinish.setVisibility(View.GONE);
+                if (createRecipeRequest.isSuccess()) {
 
-                  Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
-            }else {
-                   Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
 
-            }}
+                }
+            }
         });
 
         //add details for the second table " UsersRecipes "
@@ -216,16 +228,34 @@ public  class AddFragment extends Fragment implements View.OnClickListener {
             public void onChanged(@Nullable CreateRecipeRequest createRecipeRequest) {
                 progressBarFinish.setVisibility(View.GONE);
 
-                if (createRecipeRequest.isSuccess()){
+                if (createRecipeRequest.isSuccess()) {
 
                     Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(getContext(), createRecipeRequest.getMessage(), Toast.LENGTH_SHORT).show();
 
-                }}
+                }
+            }
         });
 
 
     }
+
+
+
+    private void getDeviceLocation() {
+        addVm.getDeviceLocation(mFusedLocationProviderClien).observe(this, new Observer<Location>() {
+            @Override
+            public void onChanged(@Nullable Location location) {
+                addVm.setCurrentLocation(location);
+            }
+        });
+
+    }
+
+boolean checkPremission(){
+        return true;
+}
+
 
 }

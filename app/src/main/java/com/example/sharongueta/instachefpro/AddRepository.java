@@ -2,12 +2,14 @@ package com.example.sharongueta.instachefpro;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.example.sharongueta.instachefpro.Model.CreateRecipeRequest;
 import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.ResourceUploadRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +30,7 @@ class AddRepository {
 
     private static final AddRepository ourInstance = new AddRepository();
     private static final String YA =" " ;
+    public FusedLocationProviderClient mFusedLocationProviderClient;
 
     public static AddRepository getInstance() {
         return ourInstance;
@@ -66,9 +69,6 @@ class AddRepository {
 
 
         return resourceUploadLiveData;
-
-
-
 
     }
 
@@ -119,13 +119,34 @@ class AddRepository {
         });
 
 
-//        usersRecipes.child("Ids").child(recipe.getUserId()).setValue(recipe);
-//
-//        CreateRecipeRequest recipeRequest;
-//        recipeRequest = new CreateRecipeRequest(true, "recipe added successfully",recipe.getUserId());
-//        liveData.setValue(recipeRequest);
-//
         return liveData;
+    }
+
+    public LiveData<Location> getDeviceLocation(FusedLocationProviderClient mFusedLocationProviderClient){
+
+        final MutableLiveData<Location> liveData = new MutableLiveData<>();
+        try{
+            if(checkPremission())
+            {
+                Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()){
+                            Location cuurentLocation= (Location) task.getResult();
+                            liveData.setValue(cuurentLocation);
+                        }
+                        else
+                        {}
+                    }}); }
+        }catch (SecurityException e){ }
+
+        return liveData;
+
+    }
+
+    boolean checkPremission(){
+        return true;
     }
 
 

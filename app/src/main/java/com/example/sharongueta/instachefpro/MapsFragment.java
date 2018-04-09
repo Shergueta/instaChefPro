@@ -3,6 +3,7 @@ package com.example.sharongueta.instachefpro;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -20,11 +21,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.sharongueta.instachefpro.Model.Recipe;
 import com.example.sharongueta.instachefpro.Model.RecipeViewModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -34,11 +35,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
-import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, LocationListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -46,28 +47,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     Button buttonGo;
     EditText whereToGo;
-
     GoogleMap mGoogleMap;
     GoogleApiClient mGoogleApiClient;
     LocationRequest locationRequest;
-    FusedLocationProviderClient mFusedLocationClient;
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view= inflater.inflate(R.layout.map_screen,container,false);
-        bindWidgetsOfView(view);
-
         recipeVm = ViewModelProviders.of(this).get(RecipeViewModel.class);
 
-        mFusedLocationClient = getFusedLocationProviderClient(getContext());
+        bindWidgetsOfView(view);
+
 
         if (googleServicesAvailiable()) {
             Toast.makeText(getContext(), "you have a google play services and its perfect!!!", Toast.LENGTH_LONG).show();
             bindWidgetsOfView(view);
             setListeners();
+
             initMap();
         } else {
             //no Google Map Layout
@@ -91,7 +89,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);
         mapFrag.getMapAsync(this);
+
     }
+
 
     public boolean googleServicesAvailiable() {
         GoogleApiAvailability api = GoogleApiAvailability.getInstance();
@@ -110,9 +110,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-
-
         goToLocation(32.053003, 34.777894, 10);
+        getAllRecipe();
+
 
 
 //        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -150,7 +150,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
         mGoogleMap.moveCamera(update);
     }
-
 
     @SuppressLint("MissingPermission")
     @Override
@@ -235,9 +234,56 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     }
 
+    public void getAllRecipe(){
 
-    public void getCoordinateOfRecipe() {
+        recipeVm.getAllRecipes().observe(this, new Observer<List<Recipe>>() {
+            @Override
+            public void onChanged(@Nullable List<Recipe> recipes) {
+                recipeVm.setRecipesDetailsSnapshotList(recipes);
+                setMarkers();
 
+            }
+        });
     }
 
+    public void setMarkers() {
+
+        List<Recipe> recipes = new ArrayList<>();
+        recipes = recipeVm.getRecipesDetailsSnapshotList();
+
+        for (int i = 0; i < recipes.size(); i++) {
+            Recipe recipe = recipes.get(i);
+            MarkerOptions options = new MarkerOptions()
+                    .snippet(recipe.getRecipeId())
+                    .title(recipe.getName())
+                    .position(new LatLng(recipe.getLat(), recipe.getLon()));
+
+           // Toast.makeText(getContext(), options.getPosition().toString(), Toast.LENGTH_SHORT).show();
+           mGoogleMap.addMarker(options);
+           //mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(24.454417,54.380866)));
+
+
+
+//            if (i==1 ){
+//                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(31.7993983,34.6358)));
+//            }
+//
+//            mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                @Override
+//                public boolean onMarkerClick(Marker marker) {
+//                    String key = marker.getSnippet();
+//                    //Toast.makeText(getContext(), "Clicked"+marker.getTitle(), Toast.LENGTH_SHORT).show();
+//                    if (!key.isEmpty()) {
+//                        Intent intent = new Intent(getContext(), RecipeDetailsActivity.class);
+//                        intent.putExtra("recipeId", key);
+//
+//
+//                        startActivity(intent);
+//                    }
+//                    return false;
+//                }
+//            });
+
+        }
+    }
 }

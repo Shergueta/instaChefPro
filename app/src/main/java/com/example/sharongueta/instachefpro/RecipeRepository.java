@@ -46,24 +46,6 @@ public class RecipeRepository {
         return recipeLiveData;
     }
 
-//    public LiveData<Recipe> getRecipeCoordinate(String recipeId){
-//
-//        DatabaseReference recipeRef =  database.getReference("Recipes").child(recipeId);
-//
-//        final MutableLiveData <Recipe> recipeLiveData = new MutableLiveData<>();
-//        recipeRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                recipeLiveData.setValue(dataSnapshot.getValue(Recipe.class));
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        return recipeLiveData;
-//    }
     public LiveData<List<Recipe>> getAllRecipes() {
 
         final MutableLiveData<List<Recipe>> recipeDetailsListLiveData = new MutableLiveData<>();
@@ -82,6 +64,8 @@ public class RecipeRepository {
                     cd.setUserId(ds.getValue(Recipe.class).getUserId());
                     cd.setIngredients(ds.getValue(Recipe.class).getIngredients());
                     cd.setDescription(ds.getValue(Recipe.class).getDescription());
+                    cd.setLon(ds.getValue(Recipe.class).getLon());
+                    cd.setLat(ds.getValue(Recipe.class).getLat());
                     recipeDetailsList.add(cd);
 
                 }
