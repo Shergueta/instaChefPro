@@ -161,6 +161,7 @@ public class ProfileFragment extends Fragment  {
 
             Button recipeName= view.findViewById(R.id.recipe_list_row_recipeNamebuttom);
 
+
             final ImageView recipeImage = view.findViewById(R.id.recipes_liw_ImageRecipest_ro);
 
 
@@ -169,6 +170,8 @@ public class ProfileFragment extends Fragment  {
             final Recipe recipe = userVm.getUserRecipesSnapshotList().get(position);
             recipeName.setText(recipe.getName());
             String ids = recipe.getRecipeId();
+
+
 
             if (recipe.getUrlPhoto() != null && !recipe.getUrlPhoto().equals("NO_LOGO"))
                 Picasso.with(getContext()).load(recipe.getUrlPhoto()).networkPolicy(NetworkPolicy.OFFLINE).into(recipeImage, new Callback() {

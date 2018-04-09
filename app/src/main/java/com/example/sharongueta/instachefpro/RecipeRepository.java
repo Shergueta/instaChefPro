@@ -31,11 +31,11 @@ public class RecipeRepository {
 
         DatabaseReference recipeRef =  database.getReference("Recipes").child(recipeId);
 
-        final MutableLiveData <Recipe> recipeLiveDatae = new MutableLiveData<>();
+        final MutableLiveData <Recipe> recipeLiveData = new MutableLiveData<>();
         recipeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                recipeLiveDatae.setValue(dataSnapshot.getValue(Recipe.class));
+                recipeLiveData.setValue(dataSnapshot.getValue(Recipe.class));
             }
 
             @Override
@@ -43,9 +43,27 @@ public class RecipeRepository {
 
             }
         });
-        return recipeLiveDatae;
+        return recipeLiveData;
     }
 
+//    public LiveData<Recipe> getRecipeCoordinate(String recipeId){
+//
+//        DatabaseReference recipeRef =  database.getReference("Recipes").child(recipeId);
+//
+//        final MutableLiveData <Recipe> recipeLiveData = new MutableLiveData<>();
+//        recipeRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                recipeLiveData.setValue(dataSnapshot.getValue(Recipe.class));
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//        return recipeLiveData;
+//    }
     public LiveData<List<Recipe>> getAllRecipes() {
 
         final MutableLiveData<List<Recipe>> recipeDetailsListLiveData = new MutableLiveData<>();

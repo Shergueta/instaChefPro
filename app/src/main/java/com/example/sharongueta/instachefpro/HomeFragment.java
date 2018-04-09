@@ -224,19 +224,19 @@ public class HomeFragment extends Fragment {
 
         }
 
-    private int getUserById(String userId) {
-        userVm.getUserById(userId).observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(@Nullable User user) {
-
-                nameOfUser= user.getFirstName() + user.getLastName();
-                urlProfilePhoto= user.getLogoUrl();
-
-            }
-        });
-
-        return 1;
-    }
+//    private int getUserById(String userId) {
+//        userVm.getUserById(userId).observe(this, new Observer<User>() {
+//            @Override
+//            public void onChanged(@Nullable User user) {
+//
+//                nameOfUser= user.getFirstName() + user.getLastName();
+//                urlProfilePhoto= user.getLogoUrl();
+//
+//            }
+//        });
+//
+//        return 1;
+//    }
 
 
 }
