@@ -132,6 +132,7 @@ public class AddRepository {
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()){
                             Location cuurentLocation= (Location) task.getResult();
+
                             liveData.setValue(cuurentLocation);
                         }
                         else

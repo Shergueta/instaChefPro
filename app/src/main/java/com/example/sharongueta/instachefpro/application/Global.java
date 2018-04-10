@@ -7,7 +7,15 @@ import com.squareup.picasso.Picasso;
 
 
 public class Global extends Application {
+    private String someVariable;
 
+    public String getSomeVariable() {
+        return someVariable;
+    }
+
+    public void setSomeVariable(String someVariable) {
+        this.someVariable = someVariable;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
