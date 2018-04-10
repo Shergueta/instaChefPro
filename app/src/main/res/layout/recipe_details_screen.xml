@@ -14,7 +14,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
         android:text="Recipe Details"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.TextView.SpinnerItem"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,96 +23,78 @@
     <TextView
         android:id="@+id/recipe_details1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
         android:text="Recipe Name"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_details2"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <TextView
         android:id="@+id/recipe_details_recipeName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_height="19dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintBaseline_toBaselineOf="@+id/recipe_details1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.354"
-        app:layout_constraintStart_toEndOf="@+id/recipe_details1" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_details1" />
 
     <TextView
         android:id="@+id/recipe_details2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
         android:text="Ingredients"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_details3"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_details1" />
+        app:layout_constraintTop_toBottomOf="@+id/recipe_details_recipeName" />
 
     <TextView
         android:id="@+id/recipe_details_recipeIngredients"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
-        android:layout_marginBottom="68dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_details_recipeDescription"
-        app:layout_constraintEnd_toEndOf="@+id/recipe_details_recipeName"
-        app:layout_constraintStart_toStartOf="@+id/recipe_details_recipeName" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_details2" />
 
     <TextView
         android:id="@+id/recipe_details3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
         android:text="Description"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_details4"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_details2" />
+        app:layout_constraintTop_toBottomOf="@+id/recipe_details_recipeIngredients" />
 
     <TextView
         android:id="@+id/recipe_details_recipeDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:text="TextView"
-        app:layout_constraintBaseline_toBaselineOf="@+id/recipe_details3"
-        app:layout_constraintEnd_toEndOf="@+id/recipe_details_recipeIngredients"
-        app:layout_constraintStart_toStartOf="@+id/recipe_details_recipeIngredients" />
-
-    <TextView
-        android:id="@+id/recipe_details4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:text="pic"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipe_details3" />
 
     <ImageView
         android:id="@+id/recipe_details_imageView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recipe_details4"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_details_recipeDescription"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/common_full_open_on_phone" />
 
 

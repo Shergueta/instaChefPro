@@ -134,7 +134,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="176dp"
         android:text="Register"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/image_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_screen_PasswordPlainText" />
@@ -158,7 +158,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/image_bg"
         android:text="Add Photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/register_screen_imageView" />

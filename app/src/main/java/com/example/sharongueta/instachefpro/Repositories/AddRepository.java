@@ -97,7 +97,6 @@ public class AddRepository {
 
     }
 
-
     public LiveData<CreateRecipeRequest> addToDbRecipesId(final Recipe recipe){
         final MutableLiveData<CreateRecipeRequest> liveData = new MutableLiveData<>();
 
