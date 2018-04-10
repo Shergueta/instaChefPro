@@ -11,12 +11,11 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-    <!--android:src="@mipmap/ic_launcher"-->
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_gallery"></ImageView>
         />
 
     <Button
@@ -27,8 +26,10 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="164dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
+        android:elevation="16dp"
         android:text="recipe name"
+        android:background="@drawable/image_bg"
         android:textAppearance="@style/TextAppearance.Design.Tab"
         android:textSize="16sp"
         android:textStyle="bold"

@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void drawIconsOnTabs(TabLayout tabLayout) {
-        tabLayout.getTabAt(0).setIcon(android.R.drawable.ic_menu_myplaces);
-        tabLayout.getTabAt(1).setIcon(android.R.drawable.ic_menu_search);
-        tabLayout.getTabAt(2).setIcon(android.R.drawable.ic_input_add);
-        tabLayout.getTabAt(3).setIcon(android.R.drawable.ic_menu_mapmode);
-        tabLayout.getTabAt(4).setIcon(android.R.drawable.ic_menu_recent_history);
+        tabLayout.getTabAt(0).setIcon(R.drawable.profile_icon);
+        tabLayout.getTabAt(1).setIcon(R.drawable.search_icon);
+        tabLayout.getTabAt(2).setIcon(R.drawable.add_icon);
+        tabLayout.getTabAt(3).setIcon(R.drawable.locaition_icon);
+        tabLayout.getTabAt(4).setIcon(R.drawable.home_icon);
     }
 }
