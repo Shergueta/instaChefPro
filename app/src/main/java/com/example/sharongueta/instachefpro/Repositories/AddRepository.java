@@ -127,6 +127,7 @@ public class AddRepository {
             if(checkPremission())
             {
                 Task location = mFusedLocationProviderClient.getLastLocation();
+
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {

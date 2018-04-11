@@ -52,7 +52,7 @@
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background_food_computer" />
+         />
 
     <TextView
         android:id="@+id/home_list_row_recipeName"
